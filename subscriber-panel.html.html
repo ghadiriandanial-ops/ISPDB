@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>پنل مشترک ISP</title>
+  <style>
+    :root{
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --primary:#2563eb;
+      --ok:#16a34a;
+      --danger:#dc2626;
+      --radius:12px;
+    }
+    *{box-sizing:border-box;font-family:Vazirmatn,IRANSans,system-ui,sans-serif;}
+    body{margin:0;background:var(--bg);color:var(--text);}
+    .container{max-width:1100px;margin:24px auto;padding:0 16px;}
+    .title{font-size:22px;margin:0 0 14px;}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:16px;
+    }
+    .card{
+      grid-column:span 12;
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:14px;
+      box-shadow:0 4px 12px rgba(0,0,0,.03);
+    }
+    .half{grid-column:span 6;}
+    h2{font-size:16px;margin:0 0 10px;}
+    .muted{font-size:12px;color:var(--muted);}
+    table{width:100%;border-collapse:collapse;}
+    th,td{
+      border-bottom:1px solid var(--border);
+      padding:8px;
+      font-size:13px;
+      text-align:right;
+    }
+
+    .progress-wrap{background:#eef2ff;border-radius:999px;height:8px;overflow:hidden;}
+    .progress{height:100%;background:var(--primary);}
+    .field{margin-bottom:10px;}
+    label{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    input,textarea,select{
+      width:100%;
+      border:1px solid var(--border);
+      border-radius:8px;
+      padding:10px 12px;
+      font-size:13px;
+      background:#fff;
+      outline:none;
+    }
+
+    .btn{
+      display:inline-block;
+      border:none;
+      background:var(--primary);
+      color:#fff;
+      text-decoration:none;
+      padding:10px 14px;
+      border-radius:8px;
+      font-size:13px;
+      cursor:pointer;
+    }
+    .btn.ok{background:var(--ok);}
+    .btn.ghost{background:#e5e7eb;color:#111827;}
+    .btn:disabled{opacity:.5;cursor:not-allowed;}
+
+    .note{
+      background:#f9fafb;
+      border:1px dashed var(--border);
+      border-radius:8px;
+      padding:10px;
+      font-size:12px;
+      color:var(--muted);
+      margin-top:8px;
+      line-height:1.9;
+    }
+
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;}
+    .result{
+      margin-top:12px;
+      border:1px solid #dbeafe;
+      background:#eff6ff;
+      border-radius:10px;
+      padding:10px;
+      display:none;
+    }
+    .result.error{
+      border-color:#fecaca;
+      background:#fef2f2;
+    }
+    .msg{font-size:12px;margin-top:8px;}
+    .msg.error{color:var(--danger);}
+    .msg.ok{color:var(--ok);}
+
+    @media (max-width:900px){
+      .half{grid-column:span 12;}
+    }
+    .user-header{
+  background:#fff; border-bottom:1px solid #e5e7eb;
+  padding:12px 16px; box-shadow:0 2px 8px rgba(0,0,0,.03);
+}
+.user-info{
+  max-width:900px; margin:0 auto; display:flex; gap:16px; flex-wrap:wrap;
+  font-size:13px; color:#1f2937;
+}
+.user-name, .user-code{font-weight:600}
+
+  </style>
+  
+</head>
+<body>
+  <header class="user-header">
+  <div class="user-info">
+    <span class="user-name">نام و نام خانوادگی: علی رضایی</span>
+    <span class="user-code">کد اشتراک: 245781</span>
+  </div>
+</header>
+
+
+  <div class="container">
+    <h1 class="title">پنل مشترک</h1>
+
+    <div class="grid">
+      <!-- سرویس‌های فعال -->
+      <section class="card">
+        <h2>سرویس‌های فعال</h2>
+        <table>
+          <tr>
+            <th>نوع سرویس</th>
+            <th>حجم باقی‌مانده</th>
+            <th>تاریخ انقضا</th>
+          </tr>
+          <tr>
+            <td>VDSL 50Mbps</td>
+            <td>
+              80GB از 120GB
+              <div class="progress-wrap"><div class="progress" style="width:66%"></div></div>
+            </td>
+            <td>1405/02/20</td>
+          </tr>
+          <tr>
+            <td>TD-LTE 40Mbps</td>
+            <td>
+              25GB از 80GB
+              <div class="progress-wrap"><div class="progress" style="width:31%"></div></div>
+            </td>
+            <td>1405/03/05</td>
+          </tr>
+        </table>
+      </section>
+      
+      <!-- ثبت سفارش سرویس اینترنتی -->
+<!-- ثبت سفارش سرویس اینترنتی -->
+<section class="card">
+  <h2>ثبت سفارش سرویس اینترنتی</h2>
+
+  <form id="serviceOrderForm">
+    <div class="grid" style="gap:12px;">
+      
+      <div class="half" style="grid-column: span 4;">
+        <div class="field">
+          <label for="planId">شناسه پلن</label>
+          <input id="planId" name="planId" type="text" placeholder="مثال: PLN-50M-120G" required />
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="planSelect">یا انتخاب پلن (اختیاری)</label>
+      <select id="planSelect" name="planSelect">
+        <option value="">-- انتخاب پلن --</option>
+        <option value="PLN-16M-80G">16Mbps | 80GB | یک‌ماهه</option>
+        <option value="PLN-50M-120G">50Mbps | 120GB | یک‌ماهه</option>
+        <option value="PLN-TDLTE-40M-100G">TD-LTE 40Mbps | 100GB | یک‌ماهه</option>
+      </select>
+      <div class="muted">در صورت انتخاب پلن، شناسه پلن به‌صورت خودکار پر می‌شود.</div>
+    </div>
+
+    <div class="half" style="grid-column: span 4;">
+      <div class="field">
+        <label for="contractStartDate">تاریخ شروع قرارداد</label>
+        <input id="contractStartDate" name="contractStartDate" type="date" required />
+      </div>
+    </div>
+
+    <div class="half" style="grid-column: span 4;">
+      <div class="field">
+        <label for="transactionCode">کد تراکنش</label>
+        <div style="display: flex; gap: 8px;">
+          <input id="transactionCode" name="transactionCode" type="text" placeholder="مثال: TRX-987654321" style="flex: 1;" />
+          <button type="button" class="btn ghost" id="generateTransactionBtn" disabled>دریافت کد (شبیه‌ساز)</button>
+        </div>
+        <div class="muted">بعد از دریافت شناسه پرداخت، می‌توانید کد تراکنش را وارد (یا شبیه‌سازی) کنید.</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" type="button" id="generatePaymentBtn">۱) دریافت شناسه پرداخت</button>
+      <button class="btn ok" type="submit" id="finalizeOrderBtn" disabled>۲) ثبت نهایی سفارش</button>
+      <button class="btn ghost" type="button" id="clearServiceOrderBtn">پاک کردن فرم</button>
+    </div>
+
+    <div id="paymentIdResult" class="result" style="margin-top:12px; font-weight:bold; color:var(--primary);"></div>
+    <div id="serviceOrderMsg" class="msg"></div>
+  </form>
+</section>
+
+      <!-- سفارش‌ها -->
+<section class="card">
+  <h2>سفارش‌های من</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>کد سفارش</th>
+        <th>تاریخ</th>
+        <th>شرح</th>
+        <th>مبلغ</th>
+        <th>وضعیت</th>
+      </tr>
+    </thead>
+    <tbody id="ordersTbody"></tbody>
+  </table>
+</section>
+
+  <section class="card half">
+  <h2>خرید تجهیزات (مرحله‌ای)</h2>
+
+  <form id="buyForm">
+    <div class="field">
+      <label for="buySerial">شناسه/سریال محصول</label>
+      <input id="buySerial" type="text" placeholder="مثال: SN-RT-2026-000145" required />
+    </div>
+
+    <div class="actions">
+      <button id="buyLookupBtn" class="btn" type="button">۱) استعلام کالا</button>
+      <button id="buyClearBtn" class="btn ghost" type="button">پاک کردن</button>
+    </div>
+
+    <div id="buyResult" class="result"></div>
+
+    <div id="buyPaymentSection" style="display:none; margin-top:12px; padding-top:12px; border-top:1px solid var(--border);">
+      <div class="actions">
+        <button id="buyGeneratePaymentBtn" class="btn" type="button">۲) دریافت شناسه پرداخت</button>
+      </div>
+
+      <div id="buyPaymentIdResult" class="result" style="margin-top:12px; font-weight:bold; color:var(--primary);"></div>
+
+      <div class="field" style="margin-top:12px;">
+        <label for="buyTransactionCode">کد تراکنش</label>
+        <div style="display:flex; gap:8px;">
+          <input id="buyTransactionCode" type="text" placeholder="مثال: TRX-987654321" style="flex:1;" />
+          <button type="button" class="btn ghost" id="buyGenerateTransactionBtn" disabled>دریافت کد (شبیه‌ساز)</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="buyConfirmBtn" class="btn ok" type="submit" disabled>۳) ثبت نهایی خرید</button>
+      </div>
+    </div>
+
+    <div id="buyMsg" class="msg"></div>
+  </form>
+
+  <div class="note">
+    ابتدا سریال را استعلام کنید، سپس شناسه پرداخت بگیرید، بعد از پرداخت کد تراکنش را وارد کنید و خرید را نهایی کنید.
+  </div>
+</section>
+
+
+
+      <!-- امانت تجهیزات -->
+      <section class="card half">
+        <h2>درخواست امانت تجهیزات (با شماره سریال)</h2>
+
+        <div class="field">
+          <label for="loanSerial">شماره سریال کالا</label>
+          <input id="loanSerial" type="text" placeholder="مثال: SN-ONT-2026-000982" />
+        </div>
+
+        <div class="actions">
+          <button id="loanLookupBtn" class="btn" type="button">استعلام کالا</button>
+          <button id="loanConfirmBtn" class="btn ok" type="button" disabled>تأیید و ثبت امانت</button>
+          <button id="loanClearBtn" class="btn ghost" type="button">پاک کردن</button>
+        </div>
+
+        <div id="loanResult" class="result"></div>
+        <div id="loanMsg" class="msg"></div>
+
+        <div class="note">
+          برای امانت، بعد از استعلام سریال، اطلاعات تجهیز و مبلغ ودیعه (در صورت وجود) نمایش داده می‌شود.
+        </div>
+      </section>
+
+      <!-- ثبت تیکت -->
+      <section class="card">
+        <h2>ثبت تیکت پشتیبانی</h2>
+        <form action="#" method="post" id="ticketForm">
+          <div class="field">
+            <label for="ticketSubject">موضوع</label>
+            <input id="ticketSubject" name="subject" type="text" placeholder="مثلاً قطعی اینترنت" required />
+          </div>
+
+          <div class="field">
+            <label for="ticketDesc">شرح مشکل</label>
+            <textarea id="ticketDesc" name="description" rows="4" placeholder="شرح کامل مشکل..." required></textarea>
+          </div>
+
+          <button class="btn" type="submit">ثبت تیکت</button>
+        </form>
+      </section>
+      <section class="card">
+  <h2>پیگیری تیکت‌های من</h2>
+  <p class="hint">تیکت‌های ثبت‌شده با کد اشتراک شما نمایش داده می‌شود.</p>
+
+  <a href="#" class="btn secondary" id="clearMyTicketsBtn">پاک کردن لیست</a>
+
+  <div id="myTicketsMsg" class="hint" style="margin-top:10px;"></div>
+  <div id="myTicketsList" style="margin-top:12px;"></div>
+</section>
+<section class="card" id="subscriberProfileSection" style="margin-top:20px;">
+  <h2>مشخصات مشترک</h2>
+
+  <div class="grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
+    <div>
+      <label>نام</label>
+      <input type="text" id="profileFirstName" readonly />
+    </div>
+
+    <div>
+      <label>نام خانوادگی</label>
+      <input type="text" id="profileLastName" readonly />
+    </div>
+
+    <div>
+      <label>کد اشتراک</label>
+      <input type="text" id="profileCode" readonly />
+    </div>
+
+    <div>
+      <label>ایمیل</label>
+      <input type="email" id="profileEmail" placeholder="example@email.com" />
+    </div>
+
+    <div>
+      <label>موبایل</label>
+      <input type="text" id="profilePhone" placeholder="0912xxxxxxx" />
+    </div>
+
+    <div style="grid-column:1/-1;">
+      <label>آدرس</label>
+      <textarea id="profileAddress" rows="3" placeholder="آدرس کامل"></textarea>
+    </div>
+  </div>
+
+  <div style="margin-top:12px;display:flex;gap:10px;align-items:center;">
+    <button id="saveProfileBtn">ذخیره تغییرات</button>
+    <span id="profileMsg" style="font-size:13px;"></span>
+  </div>
+</section>
+    </div>
+  </div>
+
+  <script>
+  // =========================
+// Mock DB (نمونه)
+// =========================
+const productsDB = {
+  "SN-RT-2026-000145": {
+    brand: "TP-Link",
+    model: "Archer VR300",
+    price: 2450000,
+    deposit: null,
+    canBuy: true,
+    canLoan: false
+  },
+  "SN-ONT-2026-000982": {
+    brand: "Huawei",
+    model: "HG8245H",
+    price: 3200000,
+    deposit: 1500000,
+    canBuy: false,
+    canLoan: true
+  },
+  "SN-AP-2026-000333": {
+    brand: "MikroTik",
+    model: "cAP lite",
+    price: 4100000,
+    deposit: 2000000,
+    canBuy: true,
+    canLoan: true
+  }
+};
+
+const toman = (n) => (n == null ? "—" : n.toLocaleString("fa-IR") + " تومان");
+const normalizeSerial = (v) => v.trim().toUpperCase();
+
+function renderProductTable(product, mode) {
+  const extraRows = mode === "buy"
+    ? `
+      <tr><th>قیمت</th><td>${toman(product.price)}</td></tr>
+      <tr><th>وضعیت</th><td>${product.canBuy ? "موجود برای خرید" : "غیرقابل خرید"}</td></tr>
+    `
+    : `
+      <tr><th>مبلغ ودیعه</th><td>${toman(product.deposit)}</td></tr>
+      <tr><th>وضعیت</th><td>${product.canLoan ? "قابل امانت" : "غیرقابل امانت"}</td></tr>
+    `;
+
+  return `
+    <table>
+      <tr><th>برند</th><td>${product.brand}</td></tr>
+      <tr><th>مدل</th><td>${product.model}</td></tr>
+      ${extraRows}
+    </table>
+  `;
+}
+
+function setupLookup(config) {
+  const {
+    inputId, lookupBtnId, confirmBtnId, clearBtnId,
+    resultId, msgId, mode, paymentIdInputId
+  } = config;
+
+  const input = document.getElementById(inputId);
+  const lookupBtn = document.getElementById(lookupBtnId);
+  const confirmBtn = document.getElementById(confirmBtnId);
+  const clearBtn = document.getElementById(clearBtnId);
+  const resultBox = document.getElementById(resultId);
+  const msgBox = document.getElementById(msgId);
+  const paymentIdInput = paymentIdInputId ? document.getElementById(paymentIdInputId) : null;
+
+  let selectedSerial = null;
+
+  function resetView() {
+    resultBox.style.display = "none";
+    resultBox.classList.remove("error");
+    resultBox.innerHTML = "";
+    msgBox.className = "msg";
+    msgBox.textContent = "";
+    confirmBtn.disabled = true;
+    selectedSerial = null;
+  }
+
+  function lookup() {
+    const serial = normalizeSerial(input.value);
+    resetView();
+
+    if (!serial) {
+      msgBox.classList.add("error");
+      msgBox.textContent = "لطفاً شماره سریال را وارد کنید.";
+      return;
+    }
+
+    const product = productsDB[serial];
+    if (!product) {
+      resultBox.style.display = "block";
+      resultBox.classList.add("error");
+      resultBox.innerHTML = "<strong>کالایی با این شماره سریال پیدا نشد.</strong>";
+      msgBox.classList.add("error");
+      msgBox.textContent = "سریال نامعتبر است یا در سیستم ثبت نشده.";
+      return;
+    }
+
+    const isAllowed = mode === "buy" ? product.canBuy : product.canLoan;
+
+    resultBox.style.display = "block";
+    resultBox.innerHTML = `
+      <div style="margin-bottom:8px"><strong>نتیجه استعلام سریال: ${serial}</strong></div>
+      ${renderProductTable(product, mode)}
+    `;
+
+    if (!isAllowed) {
+      resultBox.classList.add("error");
+      msgBox.classList.add("error");
+      msgBox.textContent = mode === "buy"
+        ? "این کالا قابل خرید نیست."
+        : "این کالا قابل امانت نیست.";
+      confirmBtn.disabled = true;
+      return;
+    }
+
+    selectedSerial = serial;
+    confirmBtn.disabled = false;
+    msgBox.classList.add("ok");
+    msgBox.textContent = "اطلاعات کالا دریافت شد. می‌توانید ثبت نهایی را انجام دهید.";
+  }
+
+  function confirmAction() {
+    if (!selectedSerial) return;
+
+    // فقط برای خرید: شناسه پرداخت الزامی
+    if (mode === "buy") {
+      const paymentId = (paymentIdInput?.value || "").trim();
+      if (!paymentId) {
+        msgBox.className = "msg error";
+        msgBox.textContent = "برای تأیید خرید، شناسه پرداخت الزامی است.";
+        return;
+      }
+      if (!paymentId.startsWith("PAY-")) {
+        msgBox.className = "msg error";
+        msgBox.textContent = "فرمت شناسه پرداخت معتبر نیست. (نمونه: PAY-...)";
+        return;
+      }
+    }
+
+    alert(
+      mode === "buy"
+        ? `خرید برای سریال ${selectedSerial} با موفقیت ثبت شد.`
+        : `امانت برای سریال ${selectedSerial} با موفقیت ثبت شد.`
+    );
+    addOrder({
+      id: "ORD-" + Date.now().toString().slice(-6),
+      date: new Date().toLocaleString("fa-IR"),
+      title: mode === "buy"
+        ? `خرید تجهیز | سریال: ${selectedSerial}`
+        : `امانت تجهیز | سریال: ${selectedSerial}`,
+      amount: mode === "buy"
+        ? toman(productsDB[selectedSerial].price)
+        : (productsDB[selectedSerial].deposit ? toman(productsDB[selectedSerial].deposit) : "بدون ودیعه"),
+      status: "درحال پردازش"
+    });
+    resetView();
+  }
+
+  lookupBtn.addEventListener("click", lookup);
+  confirmBtn.addEventListener("click", confirmAction);
+  clearBtn.addEventListener("click", () => {
+    input.value = "";
+    if (paymentIdInput) paymentIdInput.value = "";
+    resetView();
+  });
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      lookup();
+    }
+  });
+}
+
+
+
+// فعال‌سازی برای امانت
+setupLookup({
+  inputId: "loanSerial",
+  lookupBtnId: "loanLookupBtn",
+  confirmBtnId: "loanConfirmBtn",
+  clearBtnId: "loanClearBtn",
+  resultId: "loanResult",
+  msgId: "loanMsg",
+  mode: "loan"
+});
+
+// =========================
+// ثبت سفارش سرویس اینترنتی
+// =========================
+// =========================
+// ثبت سفارش سرویس اینترنتی
+// =========================
+(function setupServiceOrder() {
+  const form = document.getElementById("serviceOrderForm");
+  const planIdInput = document.getElementById("planId");
+  const planSelect = document.getElementById("planSelect");
+  const contractStartDateInput = document.getElementById("contractStartDate");
+  const transactionCodeInput = document.getElementById("transactionCode");
+
+  const msgBox = document.getElementById("serviceOrderMsg");
+  const paymentIdResult = document.getElementById("paymentIdResult");
+  
+  const generatePaymentBtn = document.getElementById("generatePaymentBtn");
+  const generateTransactionBtn = document.getElementById("generateTransactionBtn");
+  const clearBtn = document.getElementById("clearServiceOrderBtn");
+  const finalizeOrderBtn = document.getElementById("finalizeOrderBtn");
+
+  let currentPaymentId = null;
+
+  if (!form) return;
+
+  function normalize(v) {
+    return (v || "").trim().toUpperCase();
+  }
+
+  function setMsg(text, type = "") {
+    msgBox.className = "msg";
+    if (type) msgBox.classList.add(type);
+    msgBox.textContent = text;
+  }
+
+  function isValidCalendarDate(v) {
+    return /^\d{4}[-/]\d{2}[-/]\d{2}$/.test(v);
+  }
+
+  // بررسی وضعیت فرم برای ثبت نهایی
+  function checkFormValidity() {
+    const pId = normalize(planIdInput.value);
+    const sDate = (contractStartDateInput?.value || "").trim();
+    const tCode = normalize(transactionCodeInput?.value);
+
+    // دکمه ثبت نهایی زمانی فعال می‌شود که شناسه پرداخت گرفته شده باشد و کد تراکنش هم پر باشد
+    if (pId && sDate && tCode && currentPaymentId) {
+      finalizeOrderBtn.disabled = false;
+    } else {
+      finalizeOrderBtn.disabled = true;
+    }
+  }
+
+  form.addEventListener("input", checkFormValidity);
+
+  // تغییر پلن از کشویی
+  planSelect.addEventListener("change", () => {
+    planIdInput.value = planSelect.value || "";
+    checkFormValidity();
+  });
+
+  // ۱) دریافت شناسه پرداخت
+  generatePaymentBtn.addEventListener("click", () => {
+    setMsg("");
+    const pId = normalize(planIdInput.value);
+    const sDate = (contractStartDateInput?.value || "").trim();
+
+    if (!pId || !sDate) {
+      setMsg("برای دریافت شناسه پرداخت، ابتدا شناسه پلن و تاریخ شروع قرارداد را وارد کنید.", "error");
+      return;
+    }
+
+    if (!pId.startsWith("PLN-")) {
+      setMsg("فرمت شناسه پلن معتبر نیست. (نمونه: PLN-...)", "error");
+      return;
+    }
+
+    if (!isValidCalendarDate(sDate)) {
+      setMsg("فرمت تاریخ شروع قرارداد نامعتبر است.", "error");
+      return;
+    }
+
+    // تولید شناسه پرداخت تصادفی
+    const randomNum = Math.floor(1000 + Math.random() * 9000);
+    currentPaymentId = `PAY-14050323-${randomNum}`;
+    
+    paymentIdResult.style.display = "block";
+    paymentIdResult.innerHTML = `شناسه پرداخت شما ایجاد شد: <span>${currentPaymentId}</span>`;
+    
+    setMsg("لطفاً پس از پرداخت، کد تراکنش را وارد کرده و سفارش را نهایی کنید.", "ok");
+    
+    // فعال‌سازی دکمه شبیه‌ساز کد تراکنش
+    generateTransactionBtn.disabled = false;
+    checkFormValidity();
+  });
+
+  // تولید کد تراکنش (شبیه‌ساز درگاه بانکی)
+  generateTransactionBtn.addEventListener("click", () => {
+    if (!currentPaymentId) return;
+    const randomTrx = Math.floor(100000000 + Math.random() * 900000000);
+    transactionCodeInput.value = `TRX-${randomTrx}`;
+    checkFormValidity();
+    setMsg("کد تراکنش با موفقیت شبیه‌سازی شد. حالا سفارش را نهایی کنید.", "ok");
+  });
+
+  // ۲) ثبت نهایی سفارش
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    setMsg("");
+
+    const payload = {
+      planId: normalize(planIdInput.value),
+      contractStartDate: (contractStartDateInput?.value || "").trim(),
+      transactionCode: normalize(transactionCodeInput?.value),
+      paymentId: currentPaymentId
+    };
+
+    if (!payload.transactionCode.startsWith("TRX-")) {
+      return setMsg("فرمت کد تراکنش معتبر نیست. (نمونه: TRX-...)", "error");
+    }
+
+    try {
+      await new Promise(r => setTimeout(r, 500));
+      setMsg("سفارش سرویس با موفقیت ثبت شد.", "ok");
+      
+      addOrder({
+        id: "ORD-" + Date.now().toString().slice(-6),
+        date: new Date().toLocaleString("fa-IR"),
+        title: `سفارش سرویس | پلن: ${payload.planId}`,
+        amount: "پرداخت شده",
+        status: "ثبت شد"
+      });
+      
+      resetOrderForm();
+    } catch {
+      setMsg("ثبت سفارش ناموفق بود. لطفاً دوباره تلاش کنید.", "error");
+    }
+  });
+  (function setupBuyFlow() {
+  const form = document.getElementById("buyForm");
+  if (!form) return;
+
+  const buySerialInput = document.getElementById("buySerial");
+  const buyLookupBtn = document.getElementById("buyLookupBtn");
+  const buyClearBtn = document.getElementById("buyClearBtn");
+  const buyResult = document.getElementById("buyResult");
+  const buyMsg = document.getElementById("buyMsg");
+
+  const buyPaymentSection = document.getElementById("buyPaymentSection");
+  const buyGeneratePaymentBtn = document.getElementById("buyGeneratePaymentBtn");
+  const buyPaymentIdResult = document.getElementById("buyPaymentIdResult");
+
+  const buyTransactionCode = document.getElementById("buyTransactionCode");
+  const buyGenerateTransactionBtn = document.getElementById("buyGenerateTransactionBtn");
+  const buyConfirmBtn = document.getElementById("buyConfirmBtn");
+
+  let selectedSerial = null;
+  let currentPaymentId = null;
+
+  function setMsg(text, type = "") {
+    buyMsg.className = "msg";
+    if (type) buyMsg.classList.add(type);
+    buyMsg.textContent = text;
+  }
+
+  function resetBuyForm() {
+    form.reset();
+    selectedSerial = null;
+    currentPaymentId = null;
+
+    buyResult.style.display = "none";
+    buyResult.classList.remove("error");
+    buyResult.innerHTML = "";
+
+    buyPaymentSection.style.display = "none";
+    buyPaymentIdResult.style.display = "none";
+    buyPaymentIdResult.innerHTML = "";
+
+    buyGenerateTransactionBtn.disabled = true;
+    buyConfirmBtn.disabled = true;
+    setMsg("");
+  }
+
+  function checkBuyFinalizeEnable() {
+    const trx = (buyTransactionCode.value || "").trim().toUpperCase();
+    buyConfirmBtn.disabled = !(selectedSerial && currentPaymentId && trx);
+  }
+
+  buyLookupBtn.addEventListener("click", () => {
+    const serial = normalizeSerial(buySerialInput.value);
+    setMsg("");
+
+    buyResult.style.display = "none";
+    buyResult.classList.remove("error");
+    buyResult.innerHTML = "";
+    buyPaymentSection.style.display = "none";
+    buyPaymentIdResult.style.display = "none";
+    buyPaymentIdResult.innerHTML = "";
+    buyTransactionCode.value = "";
+    buyGenerateTransactionBtn.disabled = true;
+    buyConfirmBtn.disabled = true;
+    currentPaymentId = null;
+    selectedSerial = null;
+
+    if (!serial) return setMsg("لطفاً شماره سریال را وارد کنید.", "error");
+
+    const product = productsDB[serial];
+    if (!product) {
+      buyResult.style.display = "block";
+      buyResult.classList.add("error");
+      buyResult.innerHTML = "<strong>کالایی با این شماره سریال پیدا نشد.</strong>";
+      return setMsg("سریال نامعتبر است یا در سیستم ثبت نشده.", "error");
+    }
+
+    buyResult.style.display = "block";
+    buyResult.innerHTML = `
+      <div style="margin-bottom:8px"><strong>نتیجه استعلام سریال: ${serial}</strong></div>
+      ${renderProductTable(product, "buy")}
+    `;
+
+    if (!product.canBuy) {
+      buyResult.classList.add("error");
+      return setMsg("این کالا قابل خرید نیست.", "error");
+    }
+
+    selectedSerial = serial;
+    buyPaymentSection.style.display = "block";
+    setMsg("کالا قابل خرید است. مرحله بعد: دریافت شناسه پرداخت.", "ok");
+  });
+
+  buyGeneratePaymentBtn.addEventListener("click", () => {
+    if (!selectedSerial) {
+      return setMsg("ابتدا استعلام کالا را انجام دهید.", "error");
+    }
+
+    const randomNum = Math.floor(1000 + Math.random() * 9000);
+    currentPaymentId = `PAY-14050323-${randomNum}`;
+
+    buyPaymentIdResult.style.display = "block";
+    buyPaymentIdResult.innerHTML = `شناسه پرداخت خرید: <span>${currentPaymentId}</span>`;
+
+    buyGenerateTransactionBtn.disabled = false;
+    setMsg("شناسه پرداخت ایجاد شد. پس از پرداخت، کد تراکنش را وارد کنید.", "ok");
+    checkBuyFinalizeEnable();
+  });
+
+  buyGenerateTransactionBtn.addEventListener("click", () => {
+    if (!currentPaymentId) return;
+    const randomTrx = Math.floor(100000000 + Math.random() * 900000000);
+    buyTransactionCode.value = `TRX-${randomTrx}`;
+    setMsg("کد تراکنش شبیه‌سازی شد. حالا خرید را نهایی کنید.", "ok");
+    checkBuyFinalizeEnable();
+  });
+
+  buyTransactionCode.addEventListener("input", checkBuyFinalizeEnable);
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const trx = (buyTransactionCode.value || "").trim().toUpperCase();
+
+    if (!selectedSerial) return setMsg("ابتدا کالا را استعلام کنید.", "error");
+    if (!currentPaymentId) return setMsg("ابتدا شناسه پرداخت دریافت کنید.", "error");
+    if (!trx) return setMsg("کد تراکنش را وارد کنید.", "error");
+    if (!trx.startsWith("TRX-")) {
+      return setMsg("فرمت کد تراکنش معتبر نیست. (نمونه: TRX-...)", "error");
+    }
+
+    try {
+      await new Promise(r => setTimeout(r, 500));
+
+      const product = productsDB[selectedSerial];
+      addOrder({
+        id: "ORD-" + Date.now().toString().slice(-6),
+        date: new Date().toLocaleString("fa-IR"),
+        title: `خرید تجهیز | سریال: ${selectedSerial} | ${product.brand} ${product.model}`,
+        amount: toman(product.price),
+        status: "ثبت شد"
+      });
+
+      setMsg("خرید با موفقیت ثبت شد و به لیست سفارش‌ها اضافه گردید.", "ok");
+      resetBuyForm();
+    } catch {
+      setMsg("ثبت خرید ناموفق بود. لطفاً دوباره تلاش کنید.", "error");
+    }
+  });
+
+  buyClearBtn.addEventListener("click", resetBuyForm);
+})();
+
+ 
+  function resetOrderForm() {
+    form.reset();
+    currentPaymentId = null;
+    paymentIdResult.style.display = "none";
+    paymentIdResult.textContent = "";
+    generateTransactionBtn.disabled = true;
+    finalizeOrderBtn.disabled = true;
+  }
+
+  // پاک کردن فرم
+  clearBtn.addEventListener("click", () => {
+    resetOrderForm();
+    setMsg("");
+  });
+})();
+
+
+// =========================
+// تیکت‌ها
+// =========================
+const LS_TICKETS_KEY = "tickets";
+const ticketForm = document.getElementById("ticketForm");
+const clearMyTicketsBtn = document.getElementById("clearMyTicketsBtn");
+const myTicketsMsg = document.getElementById("myTicketsMsg");
+const myTicketsList = document.getElementById("myTicketsList");
+
+function getAllTickets() {
+  try { return JSON.parse(localStorage.getItem(LS_TICKETS_KEY)) || []; }
+  catch { return []; }
+}
+
+function saveNewTicket(ticketData) {
+  const tickets = getAllTickets();
+  tickets.push(ticketData);
+  localStorage.setItem(LS_TICKETS_KEY, JSON.stringify(tickets));
+}
+
+function statusBadge(status) {
+  const isAnswered = status === "answered";
+  const bg = isAnswered ? "#dcfce7" : "#fef9c3";
+  const color = isAnswered ? "#166534" : "#854d0e";
+  const text = isAnswered ? "پاسخ داده شده" : "باز";
+  return `<span style="padding:4px 8px;border-radius:999px;background:${bg};color:${color};font-size:12px;">${text}</span>`;
+}
+
+function renderMyTickets(tickets) {
+  if (!tickets.length) {
+    myTicketsList.innerHTML = "";
+    myTicketsMsg.textContent = "تیکتی برای این کد اشتراک پیدا نشد.";
+    myTicketsMsg.style.color = "#b45309";
+    return;
+  }
+
+  myTicketsMsg.textContent = `${tickets.length} تیکت پیدا شد.`;
+  myTicketsMsg.style.color = "#16a34a";
+
+  myTicketsList.innerHTML = tickets.map(t => {
+    const answered = t.status === "answered" && t.employeeReply && t.employeeId;
+    return `
+      <div style="border:1px solid #e5e7eb;border-radius:10px;padding:12px;margin-bottom:10px;background:#fff;">
+        <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+          <strong>شناسه تیکت: ${t.id || "-"}</strong>
+          ${statusBadge(t.status || "open")}
+        </div>
+        <div style="margin-top:8px;"><strong>موضوع:</strong> ${t.subject || "-"}</div>
+        <div style="margin-top:4px;"><strong>شرح:</strong> ${t.description || "-"}</div>
+        <div style="margin-top:4px;"><strong>تاریخ ثبت:</strong> ${t.createdAt || "-"}</div>
+        ${answered ? `
+            <hr style="margin:10px 0;border:none;border-top:1px solid #f1f5f9;">
+            <div><strong>پاسخ کارمند:</strong> ${t.employeeReply}</div>
+            <div style="margin-top:4px;"><strong>شناسه کارمند پاسخ‌دهنده:</strong> ${t.employeeId}</div>
+          ` : `<div style="margin-top:8px;color:#b45309;">هنوز پاسخی برای این تیکت ثبت نشده است.</div>`
+        }
+      </div>
+    `;
+  }).join("");
+}
+
+clearMyTicketsBtn?.addEventListener("click", (e) => {
+  e.preventDefault();
+  myTicketsMsg.textContent = "";
+  myTicketsList.innerHTML = "";
+});
+
+const headerCode = document.querySelector(".user-code")?.textContent.replace("کد اشتراک:", "").trim() || "";
+
+if (headerCode) {
+  const allTickets = getAllTickets();
+  const mine = allTickets.filter(t => (t.subscriberCode || "").trim() === headerCode);
+  renderMyTickets(mine);
+}
+
+ticketForm?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const subject = document.getElementById("ticketSubject").value.trim();
+  const desc = document.getElementById("ticketDesc").value.trim();
+  if (!subject || !desc) return;
+
+  saveNewTicket({
+    id: "TKT-" + Date.now().toString().slice(-6),
+    subscriberCode: headerCode,
+    subject,
+    description: desc,
+    status: "open",
+    employeeReply: "",
+    employeeId: "",
+    createdAt: new Date().toLocaleString("fa-IR")
+  });
+
+  ticketForm.reset();
+  const allTickets = getAllTickets();
+  const mine = allTickets.filter(t => (t.subscriberCode || "").trim() === headerCode);
+  renderMyTickets(mine);
+  alert("تیکت ثبت شد.");
+});
+
+// =========================
+// مشخصات مشترک
+// =========================
+const PROFILE_KEY = "subscriberProfiles";
+const profileFirstName = document.getElementById("profileFirstName");
+const profileLastName  = document.getElementById("profileLastName");
+const profileCode      = document.getElementById("profileCode");
+const profileEmail     = document.getElementById("profileEmail");
+const profilePhone     = document.getElementById("profilePhone");
+const profileAddress   = document.getElementById("profileAddress");
+const saveProfileBtn   = document.getElementById("saveProfileBtn");
+const profileMsg       = document.getElementById("profileMsg");
+
+function getHeaderName() {
+  const fullName = document.querySelector(".user-name")?.textContent?.trim() || "";
+  const codeText = document.querySelector(".user-code")?.textContent?.replace("کد اشتراک:", "")?.trim() || "";
+  const parts = fullName.split(" ");
+  return {
+    firstName: parts[0] || "",
+    lastName: parts.slice(1).join(" ") || "",
+    code: codeText
+  };
+}
+
+function loadProfiles() {
+  try { return JSON.parse(localStorage.getItem(PROFILE_KEY)) || {}; }
+  catch { return {}; }
+}
+
+function saveProfiles(obj) {
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(obj));
+}
+
+function loadProfile() {
+  const { firstName, lastName, code } = getHeaderName();
+  if (!code) return;
+
+  const all = loadProfiles();
+  const p = all[code] || { firstName, lastName, subscriberCode: code, email: "", phone: "", address: "" };
+
+  profileFirstName.value = p.firstName || "";
+  profileLastName.value  = p.lastName || "";
+  profileCode.value      = p.subscriberCode || code;
+  profileEmail.value     = p.email || "";
+  profilePhone.value     = p.phone || "";
+  profileAddress.value   = p.address || "";
+}
+
+function validateProfile() {
+  const email = profileEmail.value.trim();
+  const phone = profilePhone.value.trim();
+
+  if (email && !/^\S+@\S+\.\S+$/.test(email)) return "فرمت ایمیل نامعتبر است.";
+  if (phone && !/^09\d{9}$/.test(phone)) return "موبایل باید ۱۱ رقم و با 09 شروع شود.";
+  return "";
+}
+
+saveProfileBtn?.addEventListener("click", () => {
+  const err = validateProfile();
+  if (err) {
+    profileMsg.textContent = err;
+    profileMsg.style.color = "#b91c1c";
+    return;
+  }
+
+  const code = profileCode.value.trim();
+  if (!code) return;
+
+  const all = loadProfiles();
+  all[code] = {
+    firstName: profileFirstName.value.trim(),
+    lastName: profileLastName.value.trim(),
+    subscriberCode: code,
+    email: profileEmail.value.trim(),
+    phone: profilePhone.value.trim(),
+    address: profileAddress.value.trim()
+  };
+
+  saveProfiles(all);
+  profileMsg.textContent = "✅ اطلاعات ذخیره شد.";
+  profileMsg.style.color = "#16a34a";
+});
+
+loadProfile();
+
+// =========================
+// سفارش‌ها
+// =========================
+const ORDERS_KEY = "orders";
+
+function loadOrders() {
+  try { return JSON.parse(localStorage.getItem(ORDERS_KEY)) || []; }
+  catch { return []; }
+}
+
+function saveOrders(list) {
+  localStorage.setItem(ORDERS_KEY, JSON.stringify(list));
+}
+
+function addOrder(order) {
+  const orders = loadOrders();
+  orders.unshift(order);
+  saveOrders(orders);
+  renderOrders();
+}
+
+function renderOrders() {
+  const tbody = document.getElementById("ordersTbody");
+  if (!tbody) return;
+
+  const orders = loadOrders();
+  if (!orders.length) {
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#6b7280;">سفارشی ثبت نشده است.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = orders.map(o => `
+    <tr>
+      <td>${o.id}</td>
+      <td>${o.date}</td>
+      <td>${o.title}</td>
+      <td>${o.amount}</td>
+      <td>${o.status}</td>
+    </tr>
+  `).join("");
+}
+
+renderOrders();
+
+
+  </script>
+</body>
+</html>

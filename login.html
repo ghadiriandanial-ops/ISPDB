@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ورود به پنل</title>
+  <style>
+    :root{
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --primary:#2563eb;
+      --border:#e5e7eb;
+      --radius:14px;
+    }
+    *{box-sizing:border-box;font-family:Vazirmatn,IRANSans,system-ui,sans-serif;}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+    .wrapper{
+      width:min(980px,100%);
+      display:grid;
+      gap:20px;
+    }
+    header{
+      text-align:center;
+    }
+    header h1{
+      margin:0 0 8px;
+      font-size:22px;
+    }
+    header p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:16px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:20px;
+      box-shadow:0 6px 16px rgba(0,0,0,.04);
+    }
+    .card h2{
+      margin:0 0 12px;
+      font-size:18px;
+    }
+    .field{
+      margin-bottom:12px;
+    }
+    label{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    input{
+      width:100%;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:8px;
+      outline:none;
+      background:#fff;
+    }
+    .btn{
+      display:block;
+      width:100%;
+      text-align:center;
+      padding:10px 12px;
+      border-radius:8px;
+      background:var(--primary);
+      color:#fff;
+      text-decoration:none;
+      margin-top:8px;
+      font-size:14px;
+    }
+    .hint{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:6px;
+      text-align:center;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <h1>ورود به پنل مدیریت ISP</h1>
+      <p>نوع ورود را انتخاب کنید</p>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2>ورود کارمند</h2>
+        <div class="field">
+          <label>نام کاربری</label>
+          <input type="text" placeholder="مثلاً admin">
+        </div>
+        <div class="field">
+          <label>رمز عبور</label>
+          <input type="password" placeholder="••••••••">
+        </div>
+        <a class="btn" href="#">ورود به پنل کارمند</a>
+        <div class="hint">دسترسی به مدیریت مشترکین، فروش، قرارداد و ...</div>
+      </section>
+
+      <section class="card">
+        <h2>ورود مشترک</h2>
+        <div class="field">
+          <label>کد اشتراک / شماره موبایل</label>
+          <input type="text" placeholder="09xxxxxxxxx">
+        </div>
+        <div class="field">
+          <label>رمز عبور</label>
+          <input type="password" placeholder="••••••••">
+        </div>
+        <a class="btn" href="#">ورود به پنل مشترک</a>
+        <div class="hint">مشاهده سرویس، پرداخت‌ها و وضعیت قرارداد</div>
+      </section>
+
+      <section class="card">
+        <h2>ثبت‌نام مشترک</h2>
+
+        <div class="field">
+          <label>ایمیل</label>
+          <input id="regEmail" type="email" placeholder="example@gmail.com" required>
+        </div>
+
+        <div class="field">
+          <label>نام و نام خانوادگی</label>
+          <input id="regFullName" type="text" placeholder="مثلاً علی رضایی">
+        </div>
+
+        <div class="field">
+          <label>آدرس</label>
+          <input id="regAddress" type="text" placeholder="مثلاً تهران، خیابان ...">
+        </div>
+
+        <div class="field">
+          <label>کدملی</label>
+          <input id="regcode" type="text" placeholder="مثلا 0123456789">
+        </div>
+
+        <div class="field">
+          <label>رمز عبور</label>
+          <input id="regPassword" type="password" placeholder="حداقل 9 کاراکتر">
+        </div>
+
+        <a class="btn" href="#" id="registerBtn">ثبت‌نام و دریافت کد اشتراک</a>
+
+        <div class="hint" id="regMsg"></div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const registerBtn = document.getElementById("registerBtn");
+    const regMsg = document.getElementById("regMsg");
+
+    registerBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const emailInput = document.getElementById("regEmail");
+      const email = emailInput.value.trim();
+      const fullName = document.getElementById("regFullName").value.trim();
+      const address = document.getElementById("regAddress").value.trim();
+      const codei = document.getElementById("regcode").value.trim();
+      const password = document.getElementById("regPassword").value.trim();
+
+      regMsg.textContent = "";
+      regMsg.style.color = "";
+
+      if (!email || !fullName || !address || !codei || !password) {
+        regMsg.textContent = "لطفاً همه فیلدها را کامل کنید.";
+        regMsg.style.color = "#dc2626";
+        return;
+      }
+
+      if (!emailInput.checkValidity()) {
+        regMsg.textContent = "ایمیل وارد شده معتبر نیست.";
+        regMsg.style.color = "#dc2626";
+        emailInput.focus();
+        return;
+      }
+
+      if (password.length < 9) {
+        regMsg.textContent = "رمز عبور باید حداقل ۸ کاراکتر باشد.";
+        regMsg.style.color = "#dc2626";
+        return;
+      }
+
+      const code = Math.floor(100000 + Math.random() * 900000);
+      regMsg.textContent = `ثبت‌نام انجام شد. کد اشتراک شما: ${code}`;
+      regMsg.style.color = "#16a34a";
+    });
+  </script>
+</body>
+</html>
